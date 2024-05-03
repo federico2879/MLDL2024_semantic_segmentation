@@ -1,19 +1,21 @@
 import os
 import shutil
-import requests
 from zipfile import ZipFile
-from io import BytesIO
+from google.colab import drive
+import os
 
-def Download(url):
-    # Send a GET request to the URL
-    response = requests.get(url)
-    # Check if the request was successful
-    if response.status_code == 200:
-        # Open the downloaded bytes and extract them
-        with ZipFile(BytesIO(response.content)) as zip_file:
-            zip_file.extractall('/dataset')
-        print('Download and extraction complete!')
 
+#zip_path is the path to the CityScapes zip in google drive and destination_path is the path to put the download
+def Download(zip_path, destination_path):
+
+    #Connect to google drive
+    drive.mount('/content/drive')
+
+    #Extraction
+    with ZipFile(zip_path, 'r') as zip_ref:
+        zip_ref.extractall(destination_path)
+
+    print("The zip file has been extracted correctly")
 
 def Modified_CityScapes(start_path):
     # Extract images and copy
