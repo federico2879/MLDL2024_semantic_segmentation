@@ -1,21 +1,35 @@
 from torch.utils.data import Dataset
-
-# TODO: implement here your custom dataset class for Cityscapes
-
+import os
+import numpy as np
+from PIL import Image
+from torch.utils.data import Dataset
 
 class CityScapes(Dataset):
-    def __init__(self):
-        super(CityScapes, self).__init__()
-        # TODO
+    def _init_(self, labels_path, root_dir, split = 'train', transform=None, target_transform=None):
+        super(CityScapes, self)._init_()
+        self.root_dir = root_dir
+        self.image_dir = os.path.join(root_dir, 'images', split)
+        self.label_dir = os.path.join(root_dir, 'gtFine', split)
+        self.transform = transform
+        self.target_transform = target_transform
+        self.images = os.listdir(self.image_dir)
 
-        pass
+    def _getitem_(self, idx):
+        img_name = self.images[idx]
+        img_path = os.path.join(self.image_dir, img_name)
+        label_name = img_name.replace('leftImg8bit', 'gtFine_labelTrainIds')
+        label_path = os.path.join(self.label_dir, label_name)
 
-    def __getitem__(self, idx):
-        # TODO
+        image = Image.open(img_path).convert('RGB')
+        label = Image.open(label_path)
 
-        pass
+        if self.transform:
+            image = self.transform(image)
 
-    def __len__(self):
-        # TODO
+        if self.target_transform:
+            label = self.target_transform(label)
 
-        pass
+        return image, label
+
+    def _len_(self):
+        return len(self.images)
