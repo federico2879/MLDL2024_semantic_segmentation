@@ -6,7 +6,7 @@ from torch.utils.data import Dataset
 
 class CityScapes(Dataset):
     def __init__(self, root_dir, split = 'train', transform=None, target_transform=None):
-        super(CityScapes, self)._init_()
+        super(CityScapes, self).__init__()
         self.root_dir = root_dir
         self.image_dir = os.path.join(root_dir, 'images', split)
         self.label_dir = os.path.join(root_dir, 'gtFine', split)
