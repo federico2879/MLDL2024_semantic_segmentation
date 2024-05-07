@@ -25,7 +25,7 @@ class CityScapes(Dataset):
         #label = torch.cat([label] * 3, dim=0)
 
         if self.transform is not None:
-            image, target = self.transform(image, target)
+            image, label = self.transform(image, label)
 
         return image, label
 
