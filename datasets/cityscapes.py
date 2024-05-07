@@ -6,12 +6,13 @@ from torch.utils.data import Dataset
 import torch
 
 class CityScapes(Dataset):
-    def __init__(self, root_dir, split = 'train', transform=None):
+    def __init__(self, root_dir, split = 'train', transform=None, label_transform=None):
         super(CityScapes, self).__init__()
         self.root_dir = root_dir
         self.image_dir = os.path.join(root_dir, 'images', split)
         self.label_dir = os.path.join(root_dir, 'gtFine', split)
         self.transform = transform
+        self.label_transform = label_transform
         self.images = os.listdir(self.image_dir)
 
     def __getitem__(self, idx):
@@ -25,7 +26,10 @@ class CityScapes(Dataset):
         #label = torch.cat([label] * 3, dim=0)
 
         if self.transform is not None:
-            image, label = self.transform(image, label)
+            image = self.transform(image)
+
+        if self.label_transform is not None:
+            label = self.label_transform(label)
 
         return image, label
 
