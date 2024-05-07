@@ -3,6 +3,7 @@ import os
 import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
+import torch
 
 class CityScapes(Dataset):
     def __init__(self, root_dir, split = 'train', transform=None, target_transform=None):
