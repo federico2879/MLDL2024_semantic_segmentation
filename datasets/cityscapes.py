@@ -15,8 +15,13 @@ class CityScapes(Dataset):
         self.images = os.listdir(self.image_dir)
 
     def __getitem__(self, idx):
-        image = Image.open(self.image_dir).convert('RGB')
-        label = Image.open(self.label_dir)
+        img_name = self.images[idx]
+        img_path = os.path.join(self.image_dir, img_name)
+        label_name = img_name.replace('leftImg8bit', 'gtFine_labelTrainIds')
+        label_path = os.path.join(self.label_dir, label_name)
+        
+        image = Image.open(img_path).convert('RGB')
+        label = Image.open(label_path)
         #label = torch.cat([label] * 3, dim=0)
 
         if self.transform is not None:
