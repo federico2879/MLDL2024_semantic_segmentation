@@ -5,7 +5,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 class CityScapes(Dataset):
-    def _init_(self, labels_path, root_dir, split = 'train', transform=None, target_transform=None):
+    def _init_(self, root_dir, split = 'train', transform=None, target_transform=None):
         super(CityScapes, self)._init_()
         self.root_dir = root_dir
         self.image_dir = os.path.join(root_dir, 'images', split)
