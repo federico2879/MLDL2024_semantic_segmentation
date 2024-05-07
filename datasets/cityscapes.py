@@ -22,6 +22,7 @@ class CityScapes(Dataset):
 
         image = Image.open(img_path).convert('RGB')
         label = Image.open(label_path)
+        label = torch.cat([label] * 3, dim=0)
 
         if self.transform:
             image = self.transform(image)
