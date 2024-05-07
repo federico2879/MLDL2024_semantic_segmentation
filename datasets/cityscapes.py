@@ -5,7 +5,7 @@ from PIL import Image
 from torch.utils.data import Dataset
 
 class CityScapes(Dataset):
-    def _init_(self, root_dir, split = 'train', transform=None, target_transform=None):
+    def __init__(self, root_dir, split = 'train', transform=None, target_transform=None):
         super(CityScapes, self)._init_()
         self.root_dir = root_dir
         self.image_dir = os.path.join(root_dir, 'images', split)
@@ -14,7 +14,7 @@ class CityScapes(Dataset):
         self.target_transform = target_transform
         self.images = os.listdir(self.image_dir)
 
-    def _getitem_(self, idx):
+    def __getitem__(self, idx):
         img_name = self.images[idx]
         img_path = os.path.join(self.image_dir, img_name)
         label_name = img_name.replace('leftImg8bit', 'gtFine_labelTrainIds')
@@ -31,5 +31,5 @@ class CityScapes(Dataset):
 
         return image, label
 
-    def _len_(self):
+    def __len__(self):
         return len(self.images)
