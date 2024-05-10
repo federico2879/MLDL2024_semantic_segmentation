@@ -1,7 +1,6 @@
 !pip install -q torchinfo torchmetrics wandb
 import wandb
 
-
 def build_optimizer(network, optimizer, learning_rate):
     if optimizer == "sgd":
         optimizer = optim.SGD(network.parameters(),
@@ -10,20 +9,6 @@ def build_optimizer(network, optimizer, learning_rate):
         optimizer = optim.Adam(network.parameters(),
                                lr=learning_rate)
     return optimizer
-  
-def build_dataset(batch_size):
-   
-    transform = transforms.Compose(
-        [transforms.ToTensor(),
-         transforms.Normalize((0.1307,), (0.3081,))])
-    # download MNIST training dataset
-    dataset = datasets.MNIST(".", train=True, download=True,
-                             transform=transform)
-    sub_dataset = torch.utils.data.Subset(
-        dataset, indices=range(0, len(dataset), 5))
-    loader = torch.utils.data.DataLoader(sub_dataset, batch_size=batch_size)
-
-    return loader
 
 def train(config=None, train_epoch, dataset, network):
     # Initialize a new wandb run
@@ -47,4 +32,3 @@ def wandb(loss, sweep_config, train_epoch, dataset)
     sweep_id = wandb.sweep(sweep_config, project="optimizer_sweep")
     
     wandb.agent(sweep_id, function=train)
-
