@@ -1,5 +1,7 @@
 !pip install -q torchinfo torchmetrics wandb
 import wandb
+import torch
+from torch import optim
 
 def build_optimizer(network, optimizer, learning_rate):
     if optimizer == "sgd":
