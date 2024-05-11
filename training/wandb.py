@@ -2,10 +2,14 @@
 import wandb
 import torch
 from torch import optim
+from functools import partial
 
 def create_name(config, param_list):
+    name_str = ""
     for p_name in param_list:
-        name_str = p_name + " " + str(getattr(config, p_name))
+        name_str = name_str + p_name + ": " + str(getattr(config, p_name))
+        if p_name != param_list[-1]:
+           name_str = name_str + ", "
     return name_str
 
 def build_optimizer(network, optimizer, learning_rate):
@@ -17,9 +21,12 @@ def build_optimizer(network, optimizer, learning_rate):
                                lr=learning_rate)
     return optimizer
 
-def train(config=None, train_epoch, dataset, network, param_list):
+def train(config=None, network = None, loss = None, train_epoch = None, 
+          dataset = None, param_list = None):
+  
+    import wandb
     # Initialize a new wandb run
-    with wandb.init(config=config):
+    with wandb.init(config=config) as run:
 
         config = wandb.config
         
@@ -34,12 +41,21 @@ def train(config=None, train_epoch, dataset, network, param_list):
             acc = train_epoch(network, loader, optimizer, loss)
             wandb.log({"loss": acc, "epoch": epoch+1}) 
 
-def wandb(loss, sweep_config, train_epoch, dataset, param_list)
+def wandb(network = None, loss = None, sweep_config = None, train_epoch = None, 
+          dataset = None, param_list = None):
     
+    import wandb
+
     # Access learning rate from sweep configuration
     config = wandb.login()
 
     # Initialize sweep
     sweep_id = wandb.sweep(sweep_config, project="optimizer_sweep")
-    
-    wandb.agent(sweep_id, function=train)
+
+    partial_training_function = partial(train, network = network, loss = loss, 
+                                        train_epoch = train_epoch, dataset = dataset, 
+                                        param_list = param_list)
+
+    # Esecute sweep    
+    wandb.agent(sweep_id, function=partial_training_function)
+              
