@@ -38,8 +38,8 @@ def train(config=None, network = None, loss = None, train_epoch = None,
         loader = torch.utils.data.DataLoader(dataset, batch_size=config.batch_size)
 
         for epoch in range(config.epochs):
-            acc = train_epoch(network, loader, optimizer, loss)
-            wandb.log({"loss": acc, "epoch": epoch+1}) 
+            mIOU = train_epoch(network, loader, optimizer, loss)
+            wandb.log({"Mean IOU": mIOU, "epoch": epoch+1}) 
 
 def wandb(network = None, loss = None, sweep_config = None, train_epoch = None, 
           dataset = None, param_list = None):
