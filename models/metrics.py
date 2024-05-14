@@ -49,7 +49,7 @@ def meanIOU(num_clasess, pred, target):
       hist = fast_hist(pred[i], target[i], num_classes))
       IOU = per_class_iou(hist)
       mIOU = mIOU + sum(IOU)/num_classes 
-  return mIOU*100/len(pred)
+  return mIOU #*100/len(pred)
 
 
     
