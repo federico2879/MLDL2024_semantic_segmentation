@@ -1,6 +1,9 @@
+!pip install -U fvcore
+
 from fvcore.nn import FlopCountAnalysis, flop_count_table
 import time
 import numpy as np
+import statistics
 
 def Flops(model, height, width):  
   image = torch.zeros((3, height, width))
@@ -24,10 +27,10 @@ def Latency_FPS(model, height, width):
     FPS_i = 1/ltc_i
     FPS.append(FPS_i)
 
-meanLatency = mean(latency)*1000
-stdLatency = mstd(latency)*1000
-meanFPS = mean(FPS)*1000
-stdFPS = mstd(latency)*1000
+meanLatency = statistics.mean(latency)*1000
+stdLatency = statistics.std(latency)*1000
+meanFPS = statistics.mean(FPS)*1000
+stdFPS = statistics.std(latency)*1000
 return meanLatency, stdLatency, meanFPS, stdFPS
 
 def fast_hist(a, b, n):
@@ -38,7 +41,6 @@ def fast_hist(a, b, n):
     k = (a >= 0) & (a < n)
     return np.bincount(n * a[k].astype(int) + b[k], minlength=n ** 2).reshape(n, n)
 
-
 def per_class_iou(hist):
     epsilon = 1e-5
     return (np.diag(hist)) / (hist.sum(1) + hist.sum(0) - np.diag(hist) + epsilon)
@@ -46,10 +48,7 @@ def per_class_iou(hist):
 def meanIOU(num_clasess, pred, target):
   mIOU = 0
   for i in range(len(pred)):    
-      hist = fast_hist(pred[i], target[i], num_classes)
+      hist = fast_hist(pred[i].cpu().numpy(), target[i].cpu().numpy(), num_classes)
       IOU = per_class_iou(hist)
       mIOU = mIOU + sum(IOU)/num_classes 
   return mIOU #*100/len(pred)
-
-
-    
