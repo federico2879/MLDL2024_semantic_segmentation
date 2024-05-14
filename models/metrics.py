@@ -5,9 +5,11 @@ import time
 import numpy as np
 import statistics
 
-def Flops(model, height, width):  
-  image = torch.zeros((3, height, width))
-  flops = FlopCountAnalysis(model, image)
+def Flops(model, height, width): 
+  model.eval()
+  with torch.no_grad(): 
+    image = torch.zeros((3, height, width))
+    flops = FlopCountAnalysis(model, image)
   flops_CT = flop_count_table(flops)
   print(flops_CT)
   return flops, flops_CT
@@ -17,21 +19,22 @@ def Latency_FPS(model, height, width):
   iterations = 1000
   latency = []
   FPS = []
+  model.eval()
+  with torch.no_grad():  
+    for i in range(iterations):
+      start = time.time()
+      output = model(image)
+      end = time.time()
+      ltc_i = end-start
+      latency.append(ltc_i)
+      FPS_i = 1/ltc_i
+      FPS.append(FPS_i)
   
-  for i in range(iterations):
-    start = time.time()
-    output = model(image)
-    end = time.time()
-    ltc_i = end-start
-    latency.append(ltc_i)
-    FPS_i = 1/ltc_i
-    FPS.append(FPS_i)
-
-meanLatency = statistics.mean(latency)*1000
-stdLatency = statistics.std(latency)*1000
-meanFPS = statistics.mean(FPS)*1000
-stdFPS = statistics.std(latency)*1000
-return meanLatency, stdLatency, meanFPS, stdFPS
+  meanLatency = statistics.mean(latency)*1000
+  stdLatency = statistics.std(latency)*1000
+  meanFPS = statistics.mean(FPS)*1000
+  stdFPS = statistics.std(latency)*1000
+  return meanLatency, stdLatency, meanFPS, stdFPS
 
 def fast_hist(pred, target, num_classes):
     k = (pred >= 0) & (pred < num_classes)
