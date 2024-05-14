@@ -46,7 +46,7 @@ def per_class_iou(hist):
 def meanIOU(num_clasess, pred, target):
   mIOU = 0
   for i in range(len(pred)):    
-      hist = fast_hist(pred[i], target[i], num_classes))
+      hist = fast_hist(pred[i], target[i], num_classes)
       IOU = per_class_iou(hist)
       mIOU = mIOU + sum(IOU)/num_classes 
   return mIOU #*100/len(pred)
