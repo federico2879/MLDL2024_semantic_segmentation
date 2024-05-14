@@ -45,12 +45,13 @@ def train(model, optimizer, train_loader, loss_fn):
 
         running_loss += loss.item()
         _, predicted = outputs[0].max(1)
-        total += targets.size(0)
-        correct += predicted.eq(targets).sum().item()
+        #print(f'predicted: {predicted}')
+        iou = meanIOU(outputs.size()[1], predicted, targets) #sum of meanIOU over classes di tutte le immagini nel batch
+        total_iou += iou.sum().item()  #somma di tytte le singole iou calcolate in precedenza
+        total_images += len(targets)
 
-    train_loss = running_loss / len(train_loader)
-    train_accuracy = 100. * correct / total
-    return train_accuracy
+    result= total_iou/total_images
+    return result
 
 def test(model, test_loader, loss_fn):
     model.eval()
