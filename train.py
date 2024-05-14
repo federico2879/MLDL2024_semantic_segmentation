@@ -46,7 +46,7 @@ def train(model, optimizer, train_loader, loss_fn):
         running_loss += loss.item()
         _, predicted = outputs[0].max(1)
         #print(f'predicted: {predicted}')
-        iou = meanIOU(outputs.size()[1], predicted, targets) #sum of meanIOU over classes di tutte le immagini nel batch
+        iou = meanIOU(outputs[0].size()[1], predicted, targets) #sum of meanIOU over classes di tutte le immagini nel batch
         total_iou += iou.sum().item()  #somma di tytte le singole iou calcolate in precedenza
         total_images += len(targets)
 
