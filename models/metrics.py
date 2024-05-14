@@ -33,13 +33,9 @@ meanFPS = statistics.mean(FPS)*1000
 stdFPS = statistics.std(latency)*1000
 return meanLatency, stdLatency, meanFPS, stdFPS
 
-def fast_hist(a, b, n):
-    '''
-    a and b are predict and mask respectively
-    n is the number of classes
-    '''
-    k = (a >= 0) & (a < n)
-    return np.bincount(n * a[k].astype(int) + b[k], minlength=n ** 2).reshape(n, n)
+def fast_hist(pred, target, num_classes):
+    k = (pred >= 0) & (pred < num_classes)
+    return np.bincount(n * pred[k].astype(int) + target[k], minlength = num_classes**2).reshape(num_classes, num_classes)
 
 def per_class_iou(hist):
     epsilon = 1e-5
