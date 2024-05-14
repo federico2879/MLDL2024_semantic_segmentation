@@ -52,7 +52,8 @@ def meanIOU(num_clasess, output, target):
     
     IOU_classes.append(per_class_iou(hist))
 
-mIOU = sum(IOU_classes)/num_classes
+  mIOU = sum(IOU_classes)/num_classes
+  return mIOU
 
 
     
