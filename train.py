@@ -73,7 +73,7 @@ def test(model, test_loader, loss_fn, clear_memory_every):
             total_images += len(targets)
             
             # Clear GPU memory periodically
-            if clear_memory_every!=0 adnnmdbatch_idx % clear_memory_every == 0:
+            if clear_memory_every!=0 and batch_idx % clear_memory_every == 0:
                 clear_gpu_memory()
 
     result= total_iou/total_images
