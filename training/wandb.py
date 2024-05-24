@@ -39,7 +39,7 @@ def train(config=None, network = None, loss = None, train_epoch = None, val_epoc
         dataloader_val = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, shuffle = False)
 
         for epoch in range(config.epochs):
-            train_epoch(network, dataloader_train, optimizer, loss)
+            train_epoch(network, dataloader_train, optimizer, loss, 0)
             mIOU = val_epoch(network, dataloader_val, loss)
             wandb.log({"Mean IOU": mIOU, "epoch": epoch+1}) 
 
