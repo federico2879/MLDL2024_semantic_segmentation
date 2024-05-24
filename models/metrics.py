@@ -5,6 +5,10 @@ import time
 import numpy as np
 import statistics
 
+def metric_pip_install():
+  !pip install -U fvcore
+
+
 def Flops(model, height, width): 
   model.eval()
   with torch.no_grad(): 
