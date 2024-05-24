@@ -5,8 +5,14 @@ import time
 import numpy as np
 import statistics
 
+import subprocess
+
 def metric_pip_install():
-  !pip install -U fvcore
+    try:
+        subprocess.run(["pip", "install", "-U", "fvcore"], check=True)
+        print("fvcore installed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"Error occurred while installing fvcore: {e}")
 
 
 def Flops(model, height, width): 
