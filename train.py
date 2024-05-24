@@ -1,5 +1,11 @@
 import torch
 import torchvision
+import gc
+
+# Function to clear GPU memory
+def clear_gpu_memory():
+    torch.cuda.empty_cache()
+    gc.collect()
 
 def train(model, optimizer, train_loader, loss_fn, clear_memory_every):
     model.train()
