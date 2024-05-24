@@ -19,11 +19,10 @@ class GTA5(Dataset):
         img_name = self.images[idx]
         img_path = os.path.join(self.image_dir, img_name)
         label_name = img_name 
-        #.replace('leftImg8bit', 'gtFine_labelTrainIds')
         label_path = os.path.join(self.label_dir, label_name)
         
         image = Image.open(img_path).convert('RGB')
-        label = Image.open(label_path)
+        label = Image.open(label_path).convert('L')
         
 
         if self.transform is not None:
