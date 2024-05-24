@@ -1,4 +1,4 @@
-!pip install -U fvcore
+#!pip install -U fvcore
 
 from fvcore.nn import FlopCountAnalysis, flop_count_table
 import time
