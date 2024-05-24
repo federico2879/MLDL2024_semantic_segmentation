@@ -8,6 +8,7 @@ import statistics
 import subprocess
 
 def metric_pip_install():
+    print("hello")
     try:
         subprocess.run(["pip", "install", "-U", "fvcore"], check=True)
         print("fvcore installed successfully.")
