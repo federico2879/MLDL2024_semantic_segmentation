@@ -12,13 +12,13 @@ def create_name(config, param_list):
            name_str = name_str + ", "
     return name_str
 
-def build_optimizer(network, optimizer, learning_rate):
+def build_optimizer(network, optimizer, learning_rate, weight_decay):
     if optimizer == "sgd":
-        optimizer = optim.SGD(network.parameters(),
-                              lr=learning_rate, momentum=0.9)
+        optimizer = optim.SGD(network.parameters(), lr=learning_rate, 
+                              momentum=0.9, weight_decay = weight_decay)
     elif optimizer == "adam":
-        optimizer = optim.Adam(network.parameters(),
-                               lr=learning_rate)
+        optimizer = optim.Adam(network.parameters(), lr=learning_rate,
+                              weight_decay = weight_decay)
     return optimizer
 
 def train(config=None, network = None, loss = None, train_epoch = None, val_epoch = None,
@@ -34,7 +34,7 @@ def train(config=None, network = None, loss = None, train_epoch = None, val_epoc
             nm = create_name(config, param_list)
             run.name = nm
 
-        optimizer = build_optimizer(network, config.optimizer, config.learning_rate)
+        optimizer = build_optimizer(network, config.optimizer, config.learning_rate, config.weight_decay)
         dataloader_train = torch.utils.data.DataLoader(train_dataset, batch_size=config.batch_size, shuffle = True)
         dataloader_val = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, shuffle = False)
 
