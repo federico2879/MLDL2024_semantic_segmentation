@@ -57,7 +57,7 @@ def per_class_iou(hist):
     epsilon = 1e-5
     return (np.diag(hist)) / (hist.sum(1) + hist.sum(0) - np.diag(hist) + epsilon)
 
-def meanIOU(num_clasess, pred, target):
+def meanIOU(num_classes, pred, target):
   mIOU = 0
   for i in range(len(pred)):    
       hist = fast_hist(pred[i].cpu().numpy(), target[i].cpu().numpy(), num_classes)
