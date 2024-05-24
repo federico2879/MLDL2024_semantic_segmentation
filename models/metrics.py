@@ -1,10 +1,4 @@
 #!pip install -U fvcore
-
-from fvcore.nn import FlopCountAnalysis, flop_count_table
-import time
-import numpy as np
-import statistics
-
 import subprocess
 
 def metric_pip_install():
@@ -14,6 +8,12 @@ def metric_pip_install():
         print("fvcore installed successfully.")
     except subprocess.CalledProcessError as e:
         print(f"Error occurred while installing fvcore: {e}")
+
+    from fvcore.nn import FlopCountAnalysis, flop_count_table
+    import time
+    import numpy as np
+    import statistics
+
 
 
 def Flops(model, height, width): 
