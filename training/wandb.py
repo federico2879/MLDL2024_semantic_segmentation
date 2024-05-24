@@ -21,8 +21,8 @@ def build_optimizer(network, optimizer, learning_rate):
                                lr=learning_rate)
     return optimizer
 
-def train(config=None, network = None, loss = None, train_epoch = None, 
-          dataset = None, param_list = None):
+def train(config=None, network = None, loss = None, train_epoch = None, val_epoch = None,
+          train_dataset = None, val_dataset = None, param_list = None):
   
     import wandb
     # Initialize a new wandb run
@@ -35,14 +35,16 @@ def train(config=None, network = None, loss = None, train_epoch = None,
             run.name = nm
 
         optimizer = build_optimizer(network, config.optimizer, config.learning_rate)
-        loader = torch.utils.data.DataLoader(dataset, batch_size=config.batch_size)
+        dataloader_train = torch.utils.data.DataLoader(train_dataset, batch_size=config.batch_size, shuffle = True)
+        dataloader_val = torch.utils.data.DataLoader(val_dataset, batch_size=config.batch_size, shuffle = False)
 
         for epoch in range(config.epochs):
-            mIOU = train_epoch(network, loader, optimizer, loss)
+            train_epoch(network, dataloader_train, optimizer, loss)
+            mIOU = val_epoch(network, dataloader_val, loss)
             wandb.log({"Mean IOU": mIOU, "epoch": epoch+1}) 
 
 def wandb(network = None, loss = None, sweep_config = None, train_epoch = None, 
-          dataset = None, param_list = None):
+          val_epoch = None, train_dataset = None, val_dataset = None, param_list = None):
     
     import wandb
 
@@ -53,7 +55,8 @@ def wandb(network = None, loss = None, sweep_config = None, train_epoch = None,
     sweep_id = wandb.sweep(sweep_config, project="optimizer_sweep")
 
     partial_training_function = partial(train, network = network, loss = loss, 
-                                        train_epoch = train_epoch, dataset = dataset, 
+                                        train_epoch = train_epoch, val_epoch = val_epoch,
+                                        train_dataset = train_dataset, val_dataset = val_dataset, 
                                         param_list = param_list)
 
     # Esecute sweep    
