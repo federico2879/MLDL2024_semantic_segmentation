@@ -61,7 +61,7 @@ def per_class_iou(hist):
 
 def meanIOU(num_classes, pred, target):
   mIOU = 0
-  IOU_classes = np.zeros(1,19)  
+  IOU_classes = np.zeros([1,19])  
   for i in range(len(pred)):    
       hist = fast_hist(pred[i].cpu().numpy(), target[i].cpu().numpy(), num_classes)
       IOU = per_class_iou(hist)
