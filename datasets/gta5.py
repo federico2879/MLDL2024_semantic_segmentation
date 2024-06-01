@@ -22,8 +22,7 @@ class GTA5(Dataset):
         label_path = os.path.join(self.label_dir, label_name)
         
         image = Image.open(img_path).convert('RGB')
-        label = Image.open(label_path).convert('L')
-        
+        label = Image.open(label_path)
 
         if self.transform is not None:
             image = self.transform(image)
