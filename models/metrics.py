@@ -3,6 +3,7 @@
 import time
 import numpy as np
 import statistics
+import torch
 from fvcore.nn import FlopCountAnalysis, flop_count_table
 
 '''
@@ -65,3 +66,6 @@ def meanIOU(num_classes, pred, target):
       IOU = per_class_iou(hist)
       mIOU = mIOU + sum(IOU)/num_classes 
   return mIOU 
+
+def count_params(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
