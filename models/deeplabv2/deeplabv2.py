@@ -160,8 +160,8 @@ class ResNetMulti(nn.Module):
         which does the classification of pixel into classes
         """
         b = []
-        if self.multi_level:
-            b.append(self.layer5.parameters())
+        # if self.multi_level:
+        #    b.append(self.layer5.parameters())
         b.append(self.layer6.parameters())
 
         for j in range(len(b)):
