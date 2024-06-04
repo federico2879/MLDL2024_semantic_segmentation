@@ -18,7 +18,7 @@ def metric_pip_install():
     from fvcore.nn import FlopCountAnalysis, flop_count_table
  ''' 
 
-def Flops(model, height, width): 
+def Flops(model, height, width, device): 
   model.eval()
   with torch.no_grad(): 
     image = torch.zeros((1, 3, height, width)).to(device)
@@ -27,7 +27,7 @@ def Flops(model, height, width):
   print(flops_CT)
   return flops, flops_CT
 
-def Latency_FPS(model, height, width):
+def Latency_FPS(model, height, width, device):
   image = torch.rand((1, 3, height, width)).to(device)
   iterations = 1000
   latency = []
