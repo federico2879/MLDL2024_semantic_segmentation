@@ -1,8 +1,9 @@
 import numpy as np
 
 def fast_hist(pred, target, num_classes):
-    k = (pred >= 0) & (pred < num_classes)
-    return np.bincount(num_classes * pred[k].astype(int) + target[k], minlength = num_classes**2).reshape(num_classes, num_classes)
+    k = (target >= 0) & (target < num_classes)
+    return np.bincount(num_classes * target[k].astype(int) + pred[k],
+                       minlength = num_classes**2).reshape(num_classes, num_classes)
 
 def per_class_iou(hist):
     epsilon = 1e-5
@@ -16,4 +17,4 @@ def meanIOU(num_classes, pred, target):
       IOU = per_class_iou(hist)
       IOU_classes = IOU_classes + IOU
       mIOU = mIOU + sum(IOU)/num_classes 
-  return mIOU, IOU_classes 
+  return mIOU, IOU_classes
