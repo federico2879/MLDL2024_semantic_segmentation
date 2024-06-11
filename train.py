@@ -57,7 +57,7 @@ def train(model, optimizer, train_loader, loss_fn, num_classes, clear_memory_eve
     iou_class = total_iou_cl/total_images
     return miou, iou_class
 
-def test(model, test_loader, loss_fn, num_clasess, clear_memory_every):
+def test(model, test_loader, loss_fn, num_classes, clear_memory_every):
     model.eval()
     test_loss = 0
     correct = 0
