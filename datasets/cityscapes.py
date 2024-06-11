@@ -23,7 +23,7 @@ class CityScapes(Dataset):
         
         image = Image.open(img_path).convert('RGB')
         label = Image.open(label_path)
-        #label = torch.cat([label] * 3, dim=0)
+        
 
         if self.transform is not None:
             image = self.transform(image)
@@ -31,11 +31,11 @@ class CityScapes(Dataset):
         if self.label_transform is not None:
             label = self.label_transform(label)
 
-        label_array = np.array(label) / 255.0
-        class_indices = (label_array * 19).astype(np.int32)
-        label = torch.tensor(class_indices)
-
-        return image, label
+        label_array = np.array(label)
+        label_array = label_array.astype(np.int32)
+        label_tensor = torch.tensor(label_array)
+        
+        return image, label_tensor
 
     def __len__(self):
         return len(self.images)
