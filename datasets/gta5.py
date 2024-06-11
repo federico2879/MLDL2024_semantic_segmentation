@@ -30,7 +30,11 @@ class GTA5(Dataset):
         if self.label_transform is not None:
             label = self.label_transform(label)
 
-        return image, label
+        label_array = np.array(label)
+        label_array = label_array.astype(np.int32)
+        label_tensor = torch.tensor(label_array)
+        
+        return image, label_tensor
 
     def __len__(self):
         return len(self.images)
