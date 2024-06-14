@@ -43,11 +43,12 @@ def train(model, optimizer, train_loader, loss_fn, num_classes, clear_memory_eve
         if clear_memory_every!=0 and batch_idx % clear_memory_every == 0:
             clear_gpu_memory()
 
-    # Compute IOUs
+    # Compute metrics
     iou_class = per_class_iou(confmat)
     miou = sum(iou_class)/num_classes
+    train_loss = running_loss / len(train_loader)
     
-    return miou, iou_class, running_loss
+    return miou, iou_class, train_loss
 
 def test(model, test_loader, loss_fn, num_classes, clear_memory_every):
     model.eval()
@@ -75,8 +76,9 @@ def test(model, test_loader, loss_fn, num_classes, clear_memory_every):
             if clear_memory_every!=0 and batch_idx % clear_memory_every == 0:
                 clear_gpu_memory()
 
-    # Compute IOUs
+    # Compute metrics
     iou_class = per_class_iou(confmat)
     miou = sum(iou_class)/num_classes
+    test_loss = test_loss / len(test_loader)
     
     return miou, iou_class, test_loss
