@@ -2,9 +2,7 @@ import torch
 import torchvision
 import gc
 import numpy as np
-from MLDL2024_semantic_segmentation.models.metrics import fast_hist
-from MLDL2024_semantic_segmentation.models.metrics import per_class_iou
-
+from MLDL2024_semantic_segmentation.models.IOU import fast_hist, per_class_iou
 
 # Function to clear GPU memory
 def clear_gpu_memory():
