@@ -4,6 +4,6 @@ def load_checkpoint(filename="checkpoint.pth.tar"):
     optimizer.load_state_dict(checkpoint['optimizer'])
     start_epoch = checkpoint['epoch']
     val_IOU = checkpoint['val_IOU']
-    return model, optimizer, start_epoch, val_loss
+    return model, optimizer, start_epoch, val_IOU
 
 #model, optimizer, start_epoch, val_IOU = load_checkpoint()
