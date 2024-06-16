@@ -3,7 +3,7 @@ def load_checkpoint(filename="checkpoint.pth.tar"):
     model.load_state_dict(checkpoint['state_dict'])
     optimizer.load_state_dict(checkpoint['optimizer'])
     start_epoch = checkpoint['epoch']
-    val_loss = checkpoint['val_loss']
+    val_IOU = checkpoint['val_IOU']
     return model, optimizer, start_epoch, val_loss
 
-model, optimizer, start_epoch, val_loss = load_checkpoint()
+#model, optimizer, start_epoch, val_IOU = load_checkpoint()
