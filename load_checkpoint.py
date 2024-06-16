@@ -1,3 +1,6 @@
+import torch
+import numpy as np
+
 def load_checkpoint(filename="checkpoint.pth.tar"):
     checkpoint = torch.load(filename)
     model.load_state_dict(checkpoint['state_dict'])
