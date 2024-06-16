@@ -47,8 +47,8 @@ def Latency_FPS(model, height, width, device):
   
   meanLatency = statistics.mean(latency)*1000
   stdLatency = statistics.stdev(latency)*1000
-  meanFPS = statistics.mean(FPS)*1000
-  stdFPS = statistics.stdev(FPS)*1000
+  meanFPS = statistics.mean(FPS)
+  stdFPS = statistics.stdev(FPS)
   return meanLatency, stdLatency, meanFPS, stdFPS
 
 def count_params(model):
