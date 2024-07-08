@@ -1,21 +1,5 @@
 import os
 import shutil
-from zipfile import ZipFile
-from google.colab import drive
-import os
-
-
-#zip_path is the path to the CityScapes zip in google drive and destination_path is the path to put the download
-def Download(zip_path, destination_path):
-
-    #Connect to google drive
-    drive.mount('/content/drive')
-
-    #Extraction
-    with ZipFile(zip_path, 'r') as zip_ref:
-        zip_ref.extractall(destination_path)
-
-    print("The zip file has been extracted correctly")
 
 def Modified_CityScapes(start_path):
     # Extract images and copy
