@@ -4,6 +4,7 @@ import numpy as np
 from PIL import Image
 from torch.utils.data import Dataset
 import torch
+import shutil
 
 class CityScapes(Dataset):
     def __init__(self, root_dir, split = 'train', transform=None, label_transform=None):
@@ -34,6 +35,25 @@ class CityScapes(Dataset):
         label_array = np.array(label)
         label_array = label_array.astype(np.int32)
         label_tensor = torch.tensor(label_array)
+
+
+def Modified_CityScapes(start_path):
+    # Extract images and copy
+    end_path = ['/gtFine/train', '/gtFine/val', '/images/train', '/images/val']
+    for str in end_path:
+        origin = start_path + str
+        for subdir in os.listdir(origin):
+            path_subdir = os.path.join(origin, subdir)
+            if os.path.isdir(path_subdir):
+                for file in os.listdir(path_subdir):
+                    path_file_origin = os.path.join(path_subdir, file)
+                    shutil.copy(path_file_origin, origin)
+
+        # Delete subdirectory
+        for subdir in os.listdir(origin):
+            path_subdir = os.path.join(origin, subdir)
+            if os.path.isdir(path_subdir):
+                shutil.rmtree(path_subdir)
         
         return image, label_tensor
 
