@@ -1,15 +1,9 @@
 import torch
 import torchvision
-import gc
 import numpy as np
 from MLDL2024_semantic_segmentation.models.IOU import fast_hist, per_class_iou
 
-# Function to clear GPU memory
-def clear_gpu_memory():
-    torch.cuda.empty_cache()
-    gc.collect()
-
-def train(model, optimizer, train_loader, loss_fn, num_classes, clear_memory_every):
+def train(model, optimizer, train_loader, loss_fn, num_classes):
     model.train()
     running_loss = 0.0
     confmat = np.zeros([num_classes,num_classes])
@@ -38,10 +32,6 @@ def train(model, optimizer, train_loader, loss_fn, num_classes, clear_memory_eve
         # Compute Confusion matrix
         for i in range(len(predicted)):    
             confmat += fast_hist(predicted[i].cpu().numpy(), targets[i].cpu().numpy(), num_classes)
-        
-        # Clear GPU memory periodically
-        if clear_memory_every!=0 and batch_idx % clear_memory_every == 0:
-            clear_gpu_memory()
 
     # Compute metrics
     iou_class = per_class_iou(confmat)
@@ -50,7 +40,7 @@ def train(model, optimizer, train_loader, loss_fn, num_classes, clear_memory_eve
     
     return miou, iou_class, train_loss
 
-def test(model, test_loader, loss_fn, num_classes, clear_memory_every):
+def test(model, test_loader, loss_fn, num_classes):
     model.eval()
     test_loss = 0
     confmat = np.zeros([num_classes,num_classes])
@@ -72,9 +62,6 @@ def test(model, test_loader, loss_fn, num_classes, clear_memory_every):
             for i in range(len(predicted)):    
                 confmat += fast_hist(predicted[i].cpu().numpy(), targets[i].cpu().numpy(), num_classes)
             
-            # Clear GPU memory periodically
-            if clear_memory_every!=0 and batch_idx % clear_memory_every == 0:
-                clear_gpu_memory()
 
     # Compute metrics
     iou_class = per_class_iou(confmat)
