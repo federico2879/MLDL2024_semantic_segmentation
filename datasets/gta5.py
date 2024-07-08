@@ -39,6 +39,4 @@ class GTA5(Dataset):
     def __len__(self):
         return len(self.images)
 
-def print_random():
-    print('cjaso')
-    
+
