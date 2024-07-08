@@ -1,22 +1,9 @@
-#!pip install -U fvcore
-#import subprocess
 import time
 import numpy as np
 import statistics
 import torch
 from fvcore.nn import FlopCountAnalysis, flop_count_table
 
-'''
-def metric_pip_install():
-    print("hello")
-    try:
-        subprocess.run(["pip", "install", "-U", "fvcore"], check=True)
-        print("fvcore installed successfully.")
-    except subprocess.CalledProcessError as e:
-        print(f"Error occurred while installing fvcore: {e}")
-
-    from fvcore.nn import FlopCountAnalysis, flop_count_table
- ''' 
 
 def Flops(model, height, width, device): 
   model.eval()
@@ -51,5 +38,3 @@ def Latency_FPS(model, height, width, device):
   stdFPS = statistics.stdev(FPS)
   return meanLatency, stdLatency, meanFPS, stdFPS
 
-def count_params(model):
-    return sum(p.numel() for p in model.parameters() if p.requires_grad)
