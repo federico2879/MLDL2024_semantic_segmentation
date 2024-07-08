@@ -14,7 +14,3 @@ def load_checkpoint(model, optimizer, filename="checkpoint.pth.tar"):
     loss_val = checkpoint['loss_val']
     return model, optimizer, start_epoch, meanIOU_tr, IOU_tr, loss_tr, meanIOU_val, IOU_val, loss_val
     
-'''
-model, optimizer, start_epoch, meanIOU_tr, IOU_tr, loss_tr, meanIOU_val, IOU_val, loss_val \
-= load_checkpoint(model, optimizer,"/kaggle/working/checkpoint.pth.tar")
-'''
