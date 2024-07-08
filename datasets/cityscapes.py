@@ -37,6 +37,10 @@ class CityScapes(Dataset):
         label_tensor = torch.tensor(label_array)
 
 
+    def __len__(self):
+        return len(self.images)
+
+
 def Modified_CityScapes(start_path):
     # Extract images and copy
     end_path = ['/gtFine/train', '/gtFine/val', '/images/train', '/images/val']
@@ -56,6 +60,3 @@ def Modified_CityScapes(start_path):
                 shutil.rmtree(path_subdir)
         
         return image, label_tensor
-
-    def __len__(self):
-        return len(self.images)
