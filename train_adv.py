@@ -1,94 +1,75 @@
 import torch
-from torch.autograd import Variable
 import torch.nn.functional as F
 
-def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, num_classes):
-    model.train()  
+def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, optimizer, opt_discr, device, num_classes):
+    model.train()
     discr.train()
   
-    # labels for adversarial training
+    # Labels for adversarial training
     source_label = 0
     target_label = 1
-
-    # Inizialize loss
-    loss_seg_value = 0
-    loss_adv_target_value = 0
-    loss_D_value = 0
-      
-    for iter in len(train_loader):
+    
+    # Create iterators
+    sourceloader_iter = iter(sourceloader)
+    targetloader_iter = iter(targetloader)
+    
+    max_iterations = min(len(targetloader), len(sourceloader))
+    for idx in range(max_iterations):
 
         optimizer.zero_grad()
         opt_discr.zero_grad()
 
-        ##### train G #####
+        ##### Train G #####
 
-        # don't accumulate grads in D
+        # Don't accumulate grads in D
         for param in discr.parameters():
             param.requires_grad = False
 
-        # train with source
-
-        _, batch = sourceloader_iter.__next__()
-
-        images, labels, _, _ = batch
+        # Train with source
+        batch = next(sourceloader_iter)
+        images, labels = batch
         images = images.to(device)
-        labels = labels.squeeze(dim=1)
-        labels = labels.long().to(device)
+        labels = labels.squeeze(dim=1).long().to(device)
 
-        pred = model(images)
-        #pred = interp(pred)
+        pred = model(images)[0]
         
         loss_seg = seg_loss(pred, labels)
+        loss_seg.backward()
 
-        # proper normalization
-        loss = loss / args.iter_size
-        loss.backward()
-        loss_seg_value += loss_seg1.item() / args.iter_size
-
-        # train with target
-
-        _, batch = targetloader_iter.__next__()
-        images, _, _ = batch
+        # Train with target
+        batch = next(targetloader_iter)
+        images, _ = batch
         images = images.to(device)
 
-        pred_target = model(images)
-        #pred_target = interp_target(pred_target)
+        pred_target = model(images)[0]
 
-        D_out = discr(F.softmax(pred_target))
+        D_out = discr(F.softmax(pred_target, dim=1))
 
-        loss_adv_target = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(source_label).to(device))
+        loss_adv_target = bce_loss(D_out, torch.full(D_out.shape, source_label, device=device, dtype=torch.float))
 
-        loss_adv_target = loss_adv_target / args.iter_size
         loss_adv_target.backward()
-        loss_adv_target_value += loss_adv_target.item() / args.iter_size
 
-        # train D
+        # Train D
 
-        # bring back requires_grad
+        # Bring back requires_grad
         for param in discr.parameters():
             param.requires_grad = True
 
-        # train with source
+        # Train with source
         pred = pred.detach()
 
-        D_out = discr(F.softmax(pred))
+        D_out = discr(F.softmax(pred, dim=1))
 
-        loss_D = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(source_label).to(device))
-        loss_D = loss_D / args.iter_size / 2
+        loss_D = bce_loss(D_out, torch.full(D_out.shape, source_label, device=device, dtype=torch.float))
         loss_D.backward()
 
-        loss_D_value += loss_D.item()
-
-        # train with target
+        # Train with target
         pred_target = pred_target.detach()
         
-        D_out = discr(F.softmax(pred_target))
+        D_out = discr(F.softmax(pred_target, dim=1))
 
-        loss_D = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(target_label).to(device))
-
-        loss_D = loss_D / args.iter_size / 2
+        loss_D = bce_loss(D_out, torch.full(D_out.shape, target_label, device=device, dtype=torch.float))
         loss_D.backward()
-        loss_D_value += loss_D.item()
 
         optimizer.step()
         opt_discr.step()
