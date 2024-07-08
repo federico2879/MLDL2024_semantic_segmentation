@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter=1,
                       max_iter=300, power=0.9):
     """Polynomial decay of learning rate
@@ -17,18 +16,5 @@ def poly_lr_scheduler(optimizer, init_lr, iter, lr_decay_iter=1,
     lr = init_lr*(1 - iter/max_iter)**power
     optimizer.param_groups[0]['lr'] = lr
     return lr
-    # return lr
+    
 
-
-def fast_hist(a, b, n):
-    '''
-    a and b are predict and mask respectively
-    n is the number of classes
-    '''
-    k = (a >= 0) & (a < n)
-    return np.bincount(n * a[k].astype(int) + b[k], minlength=n ** 2).reshape(n, n)
-
-
-def per_class_iou(hist):
-    epsilon = 1e-5
-    return (np.diag(hist)) / (hist.sum(1) + hist.sum(0) - np.diag(hist) + epsilon)
