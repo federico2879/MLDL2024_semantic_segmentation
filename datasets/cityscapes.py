@@ -35,6 +35,8 @@ class CityScapes(Dataset):
         label_array = np.array(label)
         label_array = label_array.astype(np.int32)
         label_tensor = torch.tensor(label_array)
+        
+        return image, label_tensor
 
 
     def __len__(self):
@@ -59,4 +61,3 @@ def Modified_CityScapes(start_path):
             if os.path.isdir(path_subdir):
                 shutil.rmtree(path_subdir)
         
-        return image, label_tensor
