@@ -14,6 +14,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
     targetloader_iter = iter(targetloader)
     
     max_iterations = min(len(targetloader), len(sourceloader))
+    
     for idx in range(max_iterations):
 
         optimizer.zero_grad()
@@ -46,10 +47,9 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
         D_out = discr(F.softmax(pred_target, dim=1))
 
         loss_adv_target = bce_loss(D_out, torch.full(D_out.shape, source_label, device=device, dtype=torch.float))
-
         loss_adv_target.backward()
 
-        # Train D
+        ##### Train D #####
 
         # Bring back requires_grad
         for param in discr.parameters():
