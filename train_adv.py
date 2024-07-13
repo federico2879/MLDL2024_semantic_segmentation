@@ -14,7 +14,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
     sourceloader_iter = iter(sourceloader)
     targetloader_iter = iter(targetloader)
     
-    max_iterations = max(len(targetloader), len(sourceloader))
+    max_iterations = min(len(targetloader), len(sourceloader))
     
     for idx in range(max_iterations):
 
@@ -28,12 +28,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
             param.requires_grad = False
 
         # Train with source
-        try:
-            batch = next(sourceloader_iter)
-        except StopIteration:
-            sourceloader_iter = iter(sourceloader)
-            batch = next(sourceloader_iter)
-            
+        batch = next(sourceloader_iter)
         images, labels = batch
         images = images.to(device)
         labels = labels.squeeze(dim=1).long().to(device)
@@ -44,12 +39,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
         loss_seg.backward()
 
         # Train with target
-        try:
-            batch = next(targetloader_iter)
-        except StopIteration:
-            targetloader_iter = iter(targetloader)
-            batch = next(targetloader_iter)
-          
+        batch = next(targetloader_iter)
         images, _ = batch
         images = images.to(device)
 
@@ -57,7 +47,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
 
         D_out = discr(F.softmax(pred_target, dim=1))
 
-        loss_adv_target = bce_loss(D_out, torch.full(D_out.shape, source_label, device=device, dtype=torch.float))
+        loss_adv_target = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(source_label).to(device))
         loss_adv_target.backward()
 
         ##### Train D #####
@@ -71,7 +61,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
 
         D_out = discr(F.softmax(pred, dim=1))
 
-        loss_D = bce_loss(D_out, torch.full(D_out.shape, source_label, device=device, dtype=torch.float))
+        loss_D = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(source_label).to(device))
         loss_D.backward()
 
         # Train with target
@@ -79,7 +69,7 @@ def train_adv(model, discr, seg_loss, bce_loss, targetloader, sourceloader, opti
         
         D_out = discr(F.softmax(pred_target, dim=1))
 
-        loss_D = bce_loss(D_out, torch.full(D_out.shape, target_label, device=device, dtype=torch.float))
+        loss_D = bce_loss(D_out, torch.FloatTensor(D_out.data.size()).fill_(target_label).to(device))
         loss_D.backward()
 
         optimizer.step()
