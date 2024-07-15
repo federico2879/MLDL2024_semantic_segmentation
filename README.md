@@ -1,8 +1,8 @@
 # Real-time Domain Adaptation in Semantic Segmentation
 
-`Abstract`: One of the biggest challenge in Semantic Segmentation is labeling real-world datasets, since every pixel requires a label. In order to solve this problem we used a synthetic dataset from the famous videogame “GTA V”, whose images have already been labeled by the creators of the game. Training deep learning models on this dataset and using them in real situations introduces the problem of domain shift. In this work, we firstly analyzed performances of two different neural networks, 
-Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained the BiSeNet network on the GTA V dataset and evaluated the training on Cityscapes. In conclusion , we evaluated the problem of domain shift and we tried to improve performances using data augmentations and the adversarial approach, which consists in trying to fool a neural network trained to distinguish real and synthetic images.
-
+`Abstract`: One of the biggest challenge in Semantic Segmentation is labeling real-world datasets, since every pixel requires a label. In order to solve this problem we used a synthetic dataset from the famous videogame “GTA V”, whose images have already been labeled by the creators of the game. Training deep learning models on this dataset and using them in real situations introduces the problem of domain shift. In this work, we firstly analyzed two different neural networks, 
+Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”, in order to evaluate which one would perform better in a real-time setting. Then we trained the BiSeNet network on the GTA V dataset and evaluated the training on Cityscapes.
+In conclusion , we evaluated the problem of domain shift and we tried to improve performances using data augmentations and the adversarial approach, which consists in trying to fool a neural network trained to distinguish real and synthetic images.
 
 ## Datasets
 
