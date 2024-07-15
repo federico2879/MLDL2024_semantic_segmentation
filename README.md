@@ -6,8 +6,25 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 ## Datasets
 
-To download the dataset use the following download links.
+**Cityscapes**
+- Download from https://drive.google.com/file/d/1Qb4UrNsjvlU-wEsR9d7rckB0YS_LXgb2/view?usp=sharing and unzip
+- To obtain an usable dataset apply 'Modified_CityScape' (delete city folders)
 
-**Cityscapes**: https://drive.google.com/file/d/1Qb4UrNsjvlU-wEsR9d7rckB0YS_LXgb2/view?usp=sharing
+**GTA5**
+- Download from https://drive.google.com/file/d/1xYxlcMR2WFCpayNrW2-Rb7N-950vvl23/view?usp=sharing and unzip
+- To obtain an usable dataset apply '...' (produce labels)
 
-**GTA5**: https://drive.google.com/file/d/1xYxlcMR2WFCpayNrW2-Rb7N-950vvl23/view?usp=sharing
+## Models
+
+**DeepLabV2**: *get_deeplab_v2* in deeplabv2.py (take the pretrainde ResNet 101)
+
+**BiSeNet**: *BiSeNet* in build_bisenet.py (set the context path)
+
+## Training and test
+
+- 'training function': *train* in train.py
+- 'test function': *test* in train.py
+- 'adversarial training function': *train_adv* in train_adv.py
+- 'adapting learning rate function': *poly_lr_scheduler* in utils.py
+- 'resumption training function': *load_checkpoint* in load_checkpoint.py
+- 'resumption adversarial training function': *load_checkpoint_adversarial* in load_checkpoint.py
