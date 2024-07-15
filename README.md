@@ -28,3 +28,8 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 - `adapting learning rate function`: *poly_lr_scheduler* in utils.py
 - `resumption training function`: *load_checkpoint* in load_checkpoint.py
 - `resumption adversarial training function`: *load_checkpoint_adversarial* in load_checkpoint.py
+
+## Other information
+
+- Before training we modified GTAV dataset with *_*
+- There is some cells in notebooks where we upload a file, due to contrains regarding run-time we downloaded the checkpoint and we uploaded it in the input section of Kaggle to start the run again.
