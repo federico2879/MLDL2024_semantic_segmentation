@@ -8,11 +8,11 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 **Cityscapes**
 - Download from https://drive.google.com/file/d/1Qb4UrNsjvlU-wEsR9d7rckB0YS_LXgb2/view?usp=sharing and unzip
-- To obtain an usable dataset apply 'Modified_CityScape' (delete city folders)
+- To obtain an usable dataset apply *Modified_CityScapes* (delete city folders)
 
 **GTA5**
 - Download from https://drive.google.com/file/d/1xYxlcMR2WFCpayNrW2-Rb7N-950vvl23/view?usp=sharing and unzip
-- To obtain an usable dataset apply '...' (produce labels)
+- To obtain an usable dataset apply *...* (produce labels)
 
 ## Models
 
@@ -22,9 +22,9 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 ## Training and test
 
-- 'training function': *train* in train.py
-- 'test function': *test* in train.py
-- 'adversarial training function': *train_adv* in train_adv.py
-- 'adapting learning rate function': *poly_lr_scheduler* in utils.py
-- 'resumption training function': *load_checkpoint* in load_checkpoint.py
-- 'resumption adversarial training function': *load_checkpoint_adversarial* in load_checkpoint.py
+- `training function`: *train* in train.py
+- `test function`: *test* in train.py
+- `adversarial training function`: *train_adv* in train_adv.py
+- `adapting learning rate function`: *poly_lr_scheduler* in utils.py
+- `resumption training function`: *load_checkpoint* in load_checkpoint.py
+- `resumption adversarial training function`: *load_checkpoint_adversarial* in load_checkpoint.py
