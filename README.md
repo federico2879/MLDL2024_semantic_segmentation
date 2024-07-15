@@ -31,5 +31,4 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 ## Other information
 
-- Before training we modified GTAV dataset with *_*
 - There is some cells in notebooks where we upload a file, due to contrains regarding run-time we downloaded the checkpoint and we uploaded it in the input section of Kaggle to start the run again.
