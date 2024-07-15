@@ -31,4 +31,4 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 ## Other information
 
-- There is some cells in notebooks where we upload a file, due to contrains regarding run-time we downloaded the checkpoint and we uploaded it in the input section of Kaggle to start the run again.
+- Due to constraints regarding run-time we downloaded the checkpoint and we uploaded it in the execution folder to start the run again.
