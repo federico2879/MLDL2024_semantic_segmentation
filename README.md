@@ -12,7 +12,7 @@ Deeplabv2 and BiSeNet, on a real-world dataset, "Cityscapes”. Then we trained 
 
 **GTA5**
 - Download from https://drive.google.com/file/d/1xYxlcMR2WFCpayNrW2-Rb7N-950vvl23/view?usp=sharing and unzip
-- To obtain an usable dataset apply *...* (produce labels)
+- To obtain an usable dataset use GTA_label.py* (produce labels)
 
 ## Models
 
